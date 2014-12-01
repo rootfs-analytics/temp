@@ -23,7 +23,8 @@ bo <- function (x, y, len = 1000, size = 30)
 wbo <- function (x, y = "SPY", len = 500, size = 30, ...)
 {
    a = tail(getSymbols(x,auto.assign=FALSE),len)
-   ar = dailyReturn(a)
+   ar = (dailyReturn(a))
+   
    #b = tail(getSymbols(y,auto.assign=FALSE),len)
    #br = dailyReturn(b)
    c = as.vector(ar)#/as.vector(br)
@@ -41,4 +42,14 @@ wbo <- function (x, y = "SPY", len = 500, size = 30, ...)
    #points(Cl(a)[res$loc + res$end], col = "green")
  
    return (res)
+}
+
+test_bo = function ()
+{
+p1 <- rnorm(100)
+p2 <- rnorm(100,0,3)
+p3 <- rnorm(100,2,1)
+p4 <- rnorm(100,2,4)
+x <- matrix(c(p1,p2,p3,p4),ncol=1)
+breakout(x,method="multi",min.size=99,min.rsize=50, degree=0,plot=TRUE)
 }
