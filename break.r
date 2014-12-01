@@ -20,7 +20,7 @@ bo <- function (x, y, len = 1000, size = 30)
    return (res)
 }
 
-wbo <- function (x, y = "SPY", len = 500, size = 30, rsize = 10)
+wbo <- function (x, y = "SPY", len = 500, size = 30, ...)
 {
    a = tail(getSymbols(x,auto.assign=FALSE),len)
    ar = dailyReturn(a)
@@ -28,7 +28,13 @@ wbo <- function (x, y = "SPY", len = 500, size = 30, rsize = 10)
    #br = dailyReturn(b)
    c = as.vector(ar)#/as.vector(br)
    #print(c)
-   res = breakout(c, min.size=size, min.rsize = rsize, method='multi', beta=.001, degree=0, plot=FALSE)
+   argList = list(...)
+   rsize = argList[['rsize']];
+   if (is.null(rsize)) {
+	res = breakout(c, min.size=size, method='multi', beta=.001, degree=0, plot=FALSE)
+   } else {
+	res = breakout(c, min.size=size, min.rsize = rsize, method='multi', beta=.001, degree=0, plot=FALSE)
+   }
    plot(a,type='candles',main = x)
    points(Cl(a)[res$loc+1],col="red")
    #points(Cl(a)[res$loc - res$start], col = "blue")
